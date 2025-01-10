@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4択クイズ</title>
+</head>
+<body>
+    <h1>4択クイズ</h1>
+    <p>問題: {{ question["question"] }}</p>
+    <form method="POST" action="/answer">
+        {% for i, option in enumerate(question["options"]) %}
+            <label>
+                <input type="radio" name="selected" value="{{ i }}" required>
+                {{ option }}
+            </label><br>
+        {% endfor %}
+        <input type="hidden" name="index" value="{{ index }}">
+        <input type="hidden" name="score" value="{{ score }}">
+        <button type="submit">回答</button>
+    </form>
+    {% if feedback %}
+        <p>{{ feedback }}</p>
+    {% endif %}
+</body>
+</html>
