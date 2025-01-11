@@ -1,3 +1,11 @@
+body{
+    font-family: "游ゴシック体", YuGothic, "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", sans-serif;
+    background-color: rgb(219, 196, 183);
+}
+  
+
+
+
 button {
     background-color: #007bff; /* ボタンの背景色（青） */
     color: white; /* 文字色（白） */
