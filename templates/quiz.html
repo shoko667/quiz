@@ -1,27 +1,25 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4択クイズ</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Quiz</title>
 </head>
 <body>
-    <h1>4択クイズ</h1>
-    <p>問題: {{ question["question"] }}</p>
-    <form method="POST" action="/answer">
-        {% for i, option in enumerate(question["options"]) %}
-            <label>
-                <input type="radio" name="selected" value="{{ i }}" required>
-                {{ option }}
-            </label><br><br>
+    <h1>Question Set {{ set_id }}</h1>
+    <form method="post">
+        {% for i, question in enumerate(question_set) %}
+            <div>
+                <p>{{ i + 1 }}. {{ question["question"] }}</p>
+                {% for j, choice in enumerate(question["choices"]) %}
+                    <label>
+                        <input type="radio" name="answers" value="{{ j }}">
+                        {{ choice }}
+                    </label>
+                {% endfor %}
+            </div>
         {% endfor %}
-        <input type="hidden" name="index" value="{{ index }}">
-        <input type="hidden" name="score" value="{{ score }}">
-        <button type="submit" class="center">回答</button>
+        <button type="submit">Submit Answers</button>
     </form>
-    {% if feedback %}
-        <p>{{ feedback }}</p>
-    {% endif %}
 </body>
 </html>
