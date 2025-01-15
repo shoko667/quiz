@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, url_for
 app = Flask(__name__)
 
 # 1セッションあたりの問題数
-QUESTIONS_PER_SESSION = 30
+QUESTIONS_PER_SESSION = 10
 
 # CSVファイルから問題データを読み込む関数
 def load_questions():
@@ -42,10 +42,23 @@ def quiz(set_id):
     question_set = questions[start_index:end_index]
 
     if request.method == "POST":
-        # ユーザーが送信した解答を取得
-        user_answers = request.form.getlist("answers")
-        score = sum(1 for i, ans in enumerate(user_answers) if ans and int(ans) == question_set[i]["answer"])
-        return render_template("result.html", score=score, total=len(question_set), set_id=set_id)
+            # POSTリクエストで回答が送信された場合
+            user_answers = request.form.getlist("answers")
+            
+            # 各問題の結果を格納
+            result = []
+            for i, answer in enumerate(user_answers):
+                # 各問題が正解か不正解かを判定
+                correct_answer = question_set[i]["answer"]
+                result.append({
+                    "question": question_set[i]["question"],  # 問題文
+                    "user_answer": answer,                     # ユーザーの選択肢
+                    "correct_answer": correct_answer,          # 正しい答え
+                    "is_correct": int(answer) == correct_answer if answer else False  # 正誤判定
+                })
+            
+            score = sum(1 for res in result if res["is_correct"])
+            return render_template("result.html", score=score, total=len(question_set), result=result, set_id=set_id)
     
     # GETリクエストで問題を表示
     return render_template("quiz.html", question_set=question_set, set_id=set_id, total=len(question_set), enumerate = enumerate)
