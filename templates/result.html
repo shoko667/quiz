@@ -7,7 +7,31 @@
 </head>
 <body>
     <h1>Result</h1>
-    <p>You scored {{ score }} out of {{ total }}.</p>
-    <a href="{{ url_for('index') }}">Go back to the main page</a>
+    <p>Your score: {{ score }} out of {{ total }}</p>
+
+    <h2>Answer Details:</h2>
+    <ul>
+        {% for res in result %}
+            <li>
+                <strong>{{ res.question }}</strong><br>
+                Your answer: 
+                {% if res.user_answer %}
+                    {{ res.user_answer }}
+                {% else %}
+                    No answer
+                {% endif %}
+                <br>
+                Correct answer: {{ res.correct_answer }}<br>
+                {% if res.is_correct %}
+                    <span style="color: green;">Correct!</span>
+                {% else %}
+                    <span style="color: red;">Incorrect</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <br>
+    <a href="{{ url_for('index') }}">Go to main page</a>
 </body>
 </html>
