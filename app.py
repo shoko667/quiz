@@ -43,10 +43,14 @@ def quiz(set_id):
 
     if request.method == "POST":
             # POSTリクエストで回答が送信された場合
-            user_answers = request.form.getlist("answers")
-            
-            # 各問題の結果を格納
+            user_answers = []
+            for i in range(len(question_set)):
+                answer = request.form.get(f"answers[{i}]")  # ユニークなキーで取得
+                user_answers.append(answer)
+
+                
             result = []
+                
             for i, answer in enumerate(user_answers):
                 # 各問題が正解か不正解かを判定
                 correct_answer = question_set[i]["answer"]

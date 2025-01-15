@@ -8,11 +8,16 @@
 <body>
     <h1>問題 {{ set_id }}</h1>
     <form method="POST">
-        {% for question in question_set %}
+        {% for q_index, question in enumerate(question_set) %}
             <div>
                 <p>{{ question['question'] }}</p>
                 {% for i, choice in enumerate(question['choices']) %}
-                    <label><input type="radio" name="answers[{{ loop.index0 }}]" value="{{ i }}">{{ choice }}</label><br><br>
+                <label>
+                    <!-- q_index を利用して name 属性をユニークにする -->
+                    <input type="radio" name="answers[{{ q_index }}]" value="{{ i }}" 
+                    {% if request.form.get("answers[" + q_index|string + "]") == i|string %} checked {% endif %}>
+                    {{ choice }}
+                </label><br><br>
                 {% endfor %}
             </div>
             <br>
