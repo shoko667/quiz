@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
 </head>
 <body>
-    <h1>Welcome to the Quiz</h1>
-    <p>Select a set of questions:</p>
+    <h1>キャリコン過去問</h1>
+    <p>セクションを選ぶ:</p>
     <ul>
-        {% for start, end in sets %}
-            <li><a href="{{ url_for('quiz', set_id=(start // total_per_set) + 1) }}">Questions {{ start + 1 }} - {{ end + 1 }}</a></li>
+        {% for start_index, end_index in sets %}
+            <li><a href="{{ url_for('quiz', set_id=(start_index // QUESTIONS_PER_SESSION) + 1) }}">
+                セクション {{ start_index + 1 }} - {{ end_index + 1 }}
+            </a></li>
         {% endfor %}
     </ul>
 </body>

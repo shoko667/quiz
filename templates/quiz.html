@@ -1,25 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz</title>
+    <title>Quiz Set</title>
 </head>
 <body>
-    <h1>Question Set {{ set_id }}</h1>
-    <form method="post">
-        {% for i, question in enumerate(question_set) %}
+    <h1>問題 {{ set_id }}</h1>
+    <form method="POST">
+        {% for question in question_set %}
             <div>
-                <p>{{ i + 1 }}. {{ question["question"] }}</p>
-                {% for j, choice in enumerate(question["choices"]) %}
-                    <label>
-                        <input type="radio" name="answers" value="{{ j }}">
-                        {{ choice }}
-                    </label>
+                <p>{{ question['question'] }}</p>
+                {% for i, choice in enumerate(question['choices']) %}
+                    <label><input type="radio" name="answers[{{ loop.index0 }}]" value="{{ i }}">{{ choice }}</label><br><br>
                 {% endfor %}
             </div>
+            <br>
         {% endfor %}
-        <button type="submit">Submit Answers</button>
+        <button type="submit">Submit</button>
     </form>
 </body>
 </html>
