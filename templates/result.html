@@ -1,37 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result</title>
 </head>
 <body>
-    <h1>Result</h1>
-    <p>Your score: {{ score }} out of {{ total }}</p>
+    <h1>結果</h1>
+    <p>スコア: {{ score }}/{{ total }}</p>
 
-    <h2>Answer Details:</h2>
+    <h2>詳細</h2>
     <ul>
         {% for res in result %}
-            <li>
-                <strong>{{ res.question }}</strong><br>
-                Your answer: 
-                {% if res.user_answer %}
-                    {{ res.user_answer }}
-                {% else %}
-                    No answer
-                {% endif %}
-                <br>
-                Correct answer: {{ res.correct_answer }}<br>
-                {% if res.is_correct %}
-                    <span style="color: green;">Correct!</span>
-                {% else %}
-                    <span style="color: red;">Incorrect</span>
-                {% endif %}
-            </li>
+        <li>
+            <strong>問題:</strong> {{ res['question'] }}<br>
+            <strong>あなたの答え:</strong> {{ res['user_answer_text'] or '未回答' }}<br>
+            <strong>正解:</strong> {{ res['correct_answer_text'] }}<br>
+            <strong>正解ですか？:</strong> {{ 'はい' if res['is_correct'] else 'いいえ' }}
+        </li>
+        <hr>
         {% endfor %}
     </ul>
 
-    <br>
-    <a href="{{ url_for('index') }}">Go to main page</a>
+    <a href="{{ url_for('index') }}">戻る</a>
 </body>
 </html>

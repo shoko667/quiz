@@ -53,12 +53,14 @@ def quiz(set_id):
                 
             for i, answer in enumerate(user_answers):
                 # 各問題が正解か不正解かを判定
-                correct_answer = question_set[i]["answer"]
+                correct_answer_index = question_set[i]["answer"]
                 result.append({
-                    "question": question_set[i]["question"],  # 問題文
-                    "user_answer": answer,                     # ユーザーの選択肢
-                    "correct_answer": correct_answer,          # 正しい答え
-                    "is_correct": int(answer) == correct_answer if answer else False  # 正誤判定
+                    "question": question_set[i]["question"],               # 問題文
+                    "user_answer_index": answer,                           # ユーザーが選んだインデックス
+                    "user_answer_text": question_set[i]["choices"][int(answer)] if answer else None,  # ユーザーが選んだ選択肢
+                    "correct_answer_index": correct_answer_index,          # 正解のインデックス
+                    "correct_answer_text": question_set[i]["choices"][correct_answer_index],  # 正しい選択肢
+                    "is_correct": int(answer) == correct_answer_index if answer else False  # 正誤判定
                 })
             
             score = sum(1 for res in result if res["is_correct"])
